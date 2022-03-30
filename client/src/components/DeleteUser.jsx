@@ -26,7 +26,7 @@ export class DeleteUser extends Component {
         userCreated: true,
         userName: response.data.payload.name,
         userAge: response.data.payload.age,
-        userFavoriteMovies: response.data.payload.favoriteMovies.join(", "),
+        userFavoriteMovies: response.data.payload.favoriteMovies.join(","),
       });
     });
   };

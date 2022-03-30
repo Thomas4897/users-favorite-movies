@@ -7,6 +7,7 @@ export class CreateUser extends Component {
     this.state = {
       name: "",
       age: "",
+      addMovie: "",
       favoriteMovies: [],
       userCreated: false,
       userName: "",
@@ -22,13 +23,28 @@ export class CreateUser extends Component {
     console.log(this.state);
   };
 
+  addMovieClick = () => {
+    let newMoviesArray = [...this.state.favoriteMovies];
+    newMoviesArray.push(this.state.addMovie);
+
+    this.setState(
+      {
+        addMovie: "",
+        favoriteMovies: newMoviesArray,
+      },
+      () => {
+        console.log(this.state);
+      }
+    );
+  };
+
   sendCreateUserClick = async () => {
     const { name, age, favoriteMovies } = this.state;
     axios
       .post("/users/Create-User", {
         name: name,
         age: age,
-        favoriteMovies: favoriteMovies,
+        favoriteMovies: favoriteMovies.join(", "),
       })
       .then((response) => {
         console.log(response.data);
@@ -71,11 +87,14 @@ export class CreateUser extends Component {
             />
 
             <input
-              name="favoriteMovies"
-              placeholder="Favorite Movies"
+              name="addMovie"
+              value={this.state.addMovie}
+              placeholder="Favorite Movie"
               onChange={this.handleInputChange}
             />
 
+            <button onClick={this.addMovieClick}>Add Movie</button>
+            <br />
             <button onClick={this.sendCreateUserClick}>Create User</button>
           </div>
         </div>

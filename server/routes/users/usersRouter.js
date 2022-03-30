@@ -3,6 +3,7 @@ var router = express.Router();
 const {
   createUserDB,
   getUserDB,
+  getAllUsersDB,
   updateUserDB,
   deleteUserDB,
 } = require("./controller/usersController");
@@ -15,6 +16,7 @@ router.get("/", function (req, res, next) {
 
 router.post("/Create-User", checkIsEmpty, createUserDB);
 router.get("/Get-User/:id", getUserDB);
+router.get("/Get-All-Users", getAllUsersDB);
 router.put("/Update-User/:id", checkIsEmpty, updateUserDB);
 router.delete("/Delete-User/:id", checkIsEmpty, deleteUserDB);
 

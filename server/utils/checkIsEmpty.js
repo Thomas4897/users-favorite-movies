@@ -14,7 +14,7 @@ function checkIsEmpty(req, res, next) {
 
   if (checkObj.length > 0) {
     return res.status(500).json({
-      message: "Error",
+      message: "Empty Error",
       error: errObj,
     });
   } else {

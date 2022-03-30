@@ -9,10 +9,11 @@ export class UpdateUser extends Component {
       userCreated: false,
       name: "",
       age: "",
+      addMovie: "",
       favoriteMovies: [],
       userName: "",
       userAge: "",
-      userFavoriteMovies: "",
+      userFavoriteMovies: [],
     };
   }
 
@@ -23,27 +24,43 @@ export class UpdateUser extends Component {
     console.log(this.state);
   };
 
+  addMovieClick = () => {
+    let newMoviesArray = [...this.state.userFavoriteMovies];
+    newMoviesArray.push(this.state.addMovie);
+
+    this.setState(
+      {
+        addMovie: "",
+        userFavoriteMovies: newMoviesArray,
+      },
+      () => {
+        console.log(this.state);
+      }
+    );
+  };
+
   sendUpdateUserClick = async () => {
-    const { id, name, age, favoriteMovies } = this.state;
+    const { id, userName, userAge, userFavoriteMovies } = this.state;
     axios
       .get(`/users/Get-User/${this.state.id}`)
       .then((response) => {
-        console.log(response.data);
+        console.log("Get", response.data);
         this.setState({
           name: response.data.payload.name,
           age: response.data.payload.age,
           favoriteMovies: response.data.payload.favoriteMovies.join(", "),
         });
       })
-      .then(() => {
+      .then((response) => {
+        // console.log("Put", response.data);
         axios
           .put(`/users/Update-User/${id}`, {
-            name: name,
-            age: age,
-            favoriteMovies: favoriteMovies,
+            name: userName,
+            age: userAge,
+            favoriteMovies: userFavoriteMovies.join(", "),
           })
           .then((response) => {
-            console.log(response.data);
+            console.log("Setting New User", response.data);
             this.setState({
               userCreated: true,
               userName: response.data.payload.name,
@@ -65,9 +82,9 @@ export class UpdateUser extends Component {
                 {this.state.userCreated ? "Old User Info!" : ""}
               </div>
               <br />
-              <div name="userName">Name: {this.state.name}</div>
-              <div name="userAge">Age: {this.state.age}</div>
-              <div name="userFavoriteMovies">
+              <div name="name">Name: {this.state.name}</div>
+              <div name="age">Age: {this.state.age}</div>
+              <div name="favoriteMovies">
                 Favorit Movies: {this.state.favoriteMovies}
               </div>
             </div>{" "}
@@ -81,7 +98,10 @@ export class UpdateUser extends Component {
               <div name="userName">Name: {this.state.userName}</div>
               <div name="userAge">Age: {this.state.userAge}</div>
               <div name="userFavoriteMovies">
-                Favorit Movies: {this.state.userFavoriteMovies}
+                Favorit Movies:{" "}
+                {this.state.userFavoriteMovies.length > 0
+                  ? this.state.userFavoriteMovies.join(", ")
+                  : ""}
               </div>
             </div>
           </div>
@@ -95,26 +115,29 @@ export class UpdateUser extends Component {
             </div>
             <div>
               <input
-                name="name"
+                name="userName"
                 placeholder="Name"
                 onChange={this.handleInputChange}
               />
             </div>
             <div>
               <input
-                name="age"
+                name="userAge"
                 placeholder="Age"
                 onChange={this.handleInputChange}
               />
             </div>
             <div>
               <input
-                name="favoriteMovies"
-                placeholder="Favorite Movies"
+                name="addMovie"
+                value={this.state.addMovie}
+                placeholder="Favorite Movie"
                 onChange={this.handleInputChange}
               />
             </div>
 
+            <button onClick={this.addMovieClick}>Add Movie</button>
+            <br />
             <button onClick={this.sendUpdateUserClick}>Update User</button>
           </div>
         </div>
