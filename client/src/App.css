@@ -36,3 +36,36 @@
     transform: rotate(360deg);
   }
 }
+
+.UserInfo {
+  border: 1px solid white;
+  margin: 20px;
+  padding: 20px;
+  width: 350px;
+  height: fit-content;
+  text-align: left;
+}
+
+.UserInfoResponse {
+  align-self: center;
+}
+
+.InputTemplate {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.InputBoxes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input {
+  margin: 5px;
+}
+
+button {
+  width: fit-content;
+}

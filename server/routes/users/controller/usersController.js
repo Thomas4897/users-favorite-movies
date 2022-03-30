@@ -58,7 +58,7 @@ const updateUserDB = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const updatedUser = await User.findOneAndUpdate(id, req.body, {
+    const updatedUser = await User.findByIdAndUpdate(id, req.body, {
       new: true,
     });
 
